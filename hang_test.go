@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"os/exec"
@@ -19,10 +18,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestHang(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	cmd := exec.CommandContext(ctx, os.Args[0], "-test.run=TestHang", "-test.v")
+	cmd := exec.Command(os.Args[0], "-test.run=TestHang", "-test.v")
 	cmd.Env = append(os.Environ(), "HANG_SUBPROCESS=true")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
